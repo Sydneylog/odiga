@@ -1,34 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
-import { Home } from './components/Home';
-import { Plan } from './components/Plan';
-import { List} from './components/List';
-import { Footer } from './components/Footer';
-import { Nav } from './components/Nav';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Nav from './components/Nav/navbar'
+import Home from "./pages/Home";
+import MyPlans from "./pages/Myplans";
+import Place from "./pages/Place";
+import GlobalStyle from "./globalStyle";
 
-const NavMenu = () => {
-  return (
-    <>
-      <Nav />
-    </>
-  )
-}
-
-function App() {
+export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <GlobalStyle />
+        <Nav />
         <Routes>
-          <Route element={<NavMenu />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/plan" element={<Plan />} />
-            <Route path="/list" element={<List />} />
-          </Route>
+          <Route index path="/" element={<Home />} />
+          <Route path="searchplace" element={<Place />} />
+          <Route path="myplans/" element={<MyPlans />} />
         </Routes>
-        <Footer />
       </BrowserRouter>
     </div>
   );
 }
-
-export default App;
