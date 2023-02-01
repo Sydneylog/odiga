@@ -1,5 +1,6 @@
 .banner {
     font-family: 'Dongle';
+    
 }
 
 .banner_img{
@@ -30,6 +31,10 @@
     font-weight: 700;
     color:white;
     text-shadow: -0.6px 0px #999, 0px 0.6px #999, 0.6px 0px #999, 0px -0.6px #999;
+}
+.info_title{
+    display:flex;
+    justify-content: space-between;
 }
 .banner_addr {
     font-size: 1.4rem;

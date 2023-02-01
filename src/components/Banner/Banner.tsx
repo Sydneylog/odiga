@@ -8,6 +8,7 @@ function Banner() {
   const [title, setTitle] = useState('')
   const [addr, setAddr] = useState('')
   const [img, setImg] = useState([])
+  const [dist, setDist] = useState('')
 
   // const [isClicked, setIsClicked] = useState(false);
 
@@ -19,10 +20,13 @@ function Banner() {
     try {
       // reqeust locationbased data
       const res = await instance.get('locationBasedList', { params: params})
-      console.log(res)
+      console.log('위치기반데이터', res)
+
       const resAddr = res.data.response.body.items; 
-      let infoId = resAddr.item[Math.floor(Math.random() * 10)].contentid;
-      //console.log('추천id', infoId)
+      const getRandom = Math.floor(Math.random() * 10)
+      
+      const infoId = resAddr.item[getRandom].contentid;
+      setDist(resAddr.item[getRandom].dist);
       
       //get place detail
       let paramDetail = {
@@ -53,7 +57,7 @@ function Banner() {
       }
 
       const imageDetail = await instance.get('detailImage', {params:paramImage})
-      console.log('이미지', imageDetail)
+      //console.log('이미지', imageDetail)
       const imgAddr = imageDetail.data.response.body.items;
       setImg(imgAddr.item[0].originimgurl)
 
@@ -80,7 +84,10 @@ const textLengthCut = (str:string, n:number) => {
           <div
             className='banner_desc'
           >
-            <h3 className='banner_addr'>{ addr }</h3>
+            <div className='info_title'>
+              <h3 className='banner_addr'>{ addr }</h3>
+              <p> { Math.round(Number(dist)) }m 거리에 위치</p>
+            </div>
             { textLengthCut(String(info), 100) }
           </div>
         </div>

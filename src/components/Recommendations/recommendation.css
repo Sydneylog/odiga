@@ -1,0 +1,12 @@
+.recom_list_wrap{
+  font-family:'Dongle';
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.recom_title{
+  font-weight:700;
+  font-size: 1.8rem;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}

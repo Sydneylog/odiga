@@ -8,6 +8,7 @@ import Place from "./pages/Place";
 import GlobalStyle from "./globalStyle";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import Footer from './components/Footer'
 
 export default function App() {
   return (
@@ -22,7 +23,9 @@ export default function App() {
             <Route path="myplans/" element={<MyPlans />} />
           </Routes>
         </BrowserRouter>
+        <Footer />
       </ Provider>
+
     </div>
   );
 }

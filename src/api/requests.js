@@ -3,7 +3,7 @@ const requests = {
   // 관광지 12
   fetchSightseeing:{
     contentTypeId: '12',
-    numOfRows: '20',
+    numOfRows: '10',
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
@@ -16,7 +16,7 @@ const requests = {
   // 문화시설 14
   fetchCulture:{
     contentTypeId: '14',
-    numOfRows: '20',
+    numOfRows: '10',
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
@@ -29,7 +29,7 @@ const requests = {
   // 행사공연축제 15
   fetchFestivals:{
     contentTypeId: '15',
-    numOfRows: '20',
+    numOfRows: '10',
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
@@ -42,7 +42,7 @@ const requests = {
   // 레포츠 28
   fetchReports:{
     contentTypeId: '28',
-    numOfRows: '20',
+    numOfRows: '10',
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
@@ -55,7 +55,7 @@ const requests = {
   // 쇼핑 38
   fetchShopping:{
     contentTypeId: '38',
-    numOfRows: '20',
+    numOfRows: '10',
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
