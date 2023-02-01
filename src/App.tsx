@@ -6,19 +6,23 @@ import Home from "./pages/Home";
 import MyPlans from "./pages/Myplans";
 import Place from "./pages/Place";
 import GlobalStyle from "./globalStyle";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 export default function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <GlobalStyle />
-        <Nav />
-        <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route path="searchplace" element={<Place />} />
-          <Route path="myplans/" element={<MyPlans />} />
-        </Routes>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Nav />
+          <Routes>
+            <Route index path="/" element={<Home />} />
+            <Route path="searchplace" element={<Place />} />
+            <Route path="myplans/" element={<MyPlans />} />
+          </Routes>
+        </BrowserRouter>
+      </ Provider>
     </div>
   );
 }

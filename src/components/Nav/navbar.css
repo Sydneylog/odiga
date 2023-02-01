@@ -3,9 +3,6 @@
 #8EA7E9
 #E5E0FF
 #FFF2F2
-
-
-
 */
 
 .navbar {
@@ -13,6 +10,8 @@
   background-color: #8EA7E9;
   position:fixed;
   width:100%;
+  font-size: 1.7rem;
+  font-family: 'Dongle'
 }
 
 .container{

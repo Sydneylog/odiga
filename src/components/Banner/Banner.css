@@ -1,0 +1,51 @@
+.banner {
+    font-family: 'Dongle';
+}
+
+.banner_img{
+    color: rgb(233, 233, 233);
+    object-fit: contain;
+    height: 380px;
+
+}
+@media (min-width: 1200px){
+    .banner_img {
+        position: relative;
+        height:600px;
+    }
+    
+}
+
+.text_box{
+    position:relative;
+    height:100%;
+    width:99%;
+    word-break: keep-all;
+}
+.banner_title {
+    position:absolute;
+    top:30px;
+    left:30px;
+    font-size: 3rem;
+    font-weight: 700;
+    color:white;
+    text-shadow: -0.6px 0px #999, 0px 0.6px #999, 0.6px 0px #999, 0px -0.6px #999;
+}
+.banner_addr {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 10px
+}
+.banner_desc {
+    position:absolute;
+    bottom:0;
+    left:0;
+    padding:15px;
+    box-sizing: border-box;
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1.75rem;
+    width:101%;
+    color:white;
+    background-color: rgba(0, 0, 0, 0.75);
+}
