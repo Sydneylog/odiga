@@ -12,9 +12,6 @@ import Footer from './components/Footer'
 
 
 export default function App() {
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log('>>', position)
-  })
   return (
     <div className="App">
       <Provider store={store}>

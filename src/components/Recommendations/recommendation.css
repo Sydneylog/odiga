@@ -19,14 +19,12 @@
   padding:10px;
   box-sizing:border-box;
   position:absolute;
-  z-index:2;
+  z-index:3;
   top:0;
-  height:100%;
-  width:100%;
-  color:white;
+  
+  color:black;
   font-weight:300;
-  background-color:rgba(0, 0, 0, 0.82);
-  transition: opacity 300ms ease-in-out;
+  transition: 300ms ease-in-out;
   word-break: keep-all;
   line-height: 1.5;
   text-align: center;

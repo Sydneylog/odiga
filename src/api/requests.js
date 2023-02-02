@@ -8,9 +8,7 @@ const randomType = typeArray[Math.floor(Math.random() * typeArray.length)];
 
 
 // handleGeoSucces 수정
-navigator.geolocation.getCurrentPosition((position) => {
-	console.log('>>', position)
-})
+
 
 const requests = {
   //get locationbased data
@@ -21,7 +19,7 @@ const requests = {
     pageNo: '1',
     MobileOS: 'ETC',
     MobileApp: 'AppTest',
-    arrange:'A',
+    arrange:'Q',
     mapX: '126.983745',
     mapY: '37.583745',
     radius: '3000',
