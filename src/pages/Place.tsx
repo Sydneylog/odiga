@@ -2,7 +2,7 @@ import React from 'react'
 
 function Place() {
   return (
-    <div>Place</div>
+    <div>카카오맵</div>
   )
 }
 
