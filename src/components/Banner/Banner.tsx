@@ -25,6 +25,7 @@ function Banner() {
 
       const resAddr = res.data.response.body.items; 
       const getRandom = Math.floor(Math.random() * 10)
+
       const infoId = resAddr.item[getRandom].contentid;
       setDist(resAddr.item[getRandom].dist);
       setImg(resAddr.item[getRandom].firstimage);

@@ -13,37 +13,31 @@ import './recommendation.css';
 
 
 
-interface recoPropType {
-  title: string;
-  typeId: string;
-  reqURL: {};
-}
+// interface recoPropType {
+//   title: string;
+//   typeId: string;
+//   reqURL: {};
+// }
 
-const List = ({title, typeId, reqURL}:recoPropType) => {
-  const [recommendations, setRecommendations] = useState<any[]>([]);
+const List = ({title, typeId, reqURL}) => {
+  const [recommendations, setRecommendations] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [recomSelected, setRecomSelected] = useState({})
 
-  console.log('리커먼',recomSelected);
-  
-
-
   const fetchData = useCallback( async() => {
     const res = await instance.get('locationBasedList', {params: reqURL});
-    //console.log('추천리스트', res);
+    console.log('추천리스트', res);
     setRecommendations(res.data.response.body.items.item);
-     
   }, [reqURL])
 
   useEffect(() => {
     fetchData();
   }, [fetchData])
 
-  const handleClick = (recommendation:any) => {
+  const handleClick = (recommendation) => {
     setModalOpen(true);
     setRecomSelected(recommendation);
   }
-
   
   return (
     <div className='recom_list_wrap'>
@@ -86,7 +80,7 @@ const List = ({title, typeId, reqURL}:recoPropType) => {
                   alt={recommendation.title}
                   onClick={() => handleClick(recommendation)}
                 />
-                <p className='mini_title'>{recommendation.title}</p>
+                <p className='mini_title'>#{recommendation.title}</p>
               </Slide>
             </SwiperSlide>
           ))}
@@ -95,7 +89,7 @@ const List = ({title, typeId, reqURL}:recoPropType) => {
       </Swiper>
       {modalOpen && 
         <Modal {...recomSelected} 
-        setModalOpen={ modalOpen }
+        setModalOpen={ setModalOpen }
         />
         }
     </div>
@@ -132,10 +126,9 @@ const Slide = styled.div`
   }
 
   &:hover {
-    rgb(0 0 0 / 72%) 0px 30px 22px -10px;
+    rgb(255 242 242 / 72%) 0px 30px 22px -10px;
     transform: scale(0.98);
     border-color: rgba(249, 249, 249, 0.8);
-    opacity:0.65
     
   }
   

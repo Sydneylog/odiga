@@ -11,26 +11,24 @@
   margin-bottom: 5px;
 }
 .mini_title {
-  opacity:0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   display:flex;
   justify-content: center;
   align-items: center;
-  padding:10px;
+  padding:3px 10px 1px 5px;
   box-sizing:border-box;
   position:absolute;
   z-index:3;
-  top:0;
-  
-  color:black;
-  font-weight:300;
-  transition: 300ms ease-in-out;
+  bottom:0;
+  right:0;
+  color:#222;
+  font-weight:700;
   word-break: keep-all;
-  line-height: 1.5;
+  line-height: 1.25;
   text-align: center;
+  background-color: #f4f2ff;
+  
 }
-.mini_title:hover{
-  opacity:1;
-}
+
 
 

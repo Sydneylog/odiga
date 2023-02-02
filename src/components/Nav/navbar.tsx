@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { ReactComponent as Logo } from '../../assets/icons/logoipsum-284.svg'
 import NavMenu from './navmenu'
 import './navbar.css'
 import { HiMenu } from 'react-icons/hi';
@@ -18,7 +17,11 @@ const Navbar = () => {
       <nav className='navbar'>
         <div className='container'>
           <div className='logo'>
-            <Logo />
+            <img
+              className='logo_img'
+              src='./odigaLogo.png' 
+              alt="오디가"
+            />
           </div>
           <div className='desktop'>
             <NavMenu />
