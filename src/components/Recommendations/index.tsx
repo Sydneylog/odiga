@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { instance } from '../../api/axios';
-//import ContentModal from '../recomModal'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import 'swiper/css/pagination';
 import './recommendation.css';
+
 
 
 interface recoPropType {
@@ -39,8 +40,11 @@ const List = ({title, typeId, reqURL}:recoPropType) => {
     setModalOpen(true);
     setRecomSelected(recommendation);
   }
-
-  console.log('리커먼셀렉티드', recomSelected)
+  // const openModal = () => {
+  //   const modal = useSelector((state) => state.modal.isOpen)
+  //   console.log('modal', modal);
+    
+  // }
   
   return (
     <div className='recom_list_wrap'>
@@ -51,6 +55,10 @@ const List = ({title, typeId, reqURL}:recoPropType) => {
           navigation
           pagination={{ clickable: true}}
           breakpoints={{
+            1500: {
+              slidesPerView: 5,
+              slidesPerGroup: 5
+            },
             1370: {
               slidesPerView: 5,
               slidesPerGroup: 5
@@ -79,16 +87,14 @@ const List = ({title, typeId, reqURL}:recoPropType) => {
                   alt={recommendation.title}
                   onClick={() => handleClick(recommendation)}
                 />
+                <p className='mini_title'>{recommendation.title}</p>
               </Slide>
             </SwiperSlide>
           ))}
 
         </Content>
       </Swiper>
-        {/* {
-          modalOpen &&
-          <ContentModal {...recomSelected} setModalOpen={ setModalOpen } />
-        } */}
+       
     </div>
     
   )
@@ -121,9 +127,13 @@ const Slide = styled.div`
     transition: opacity 500ms ease-in-out;
     z-index:1;
   }
+
   &:hover {
     rgb(0 0 0 / 72%) 0px 30px 22px -10px;
     transform: scale(0.98);
     border-color: rgba(249, 249, 249, 0.8);
+    
   }
+  
+ 
 `

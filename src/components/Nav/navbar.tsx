@@ -3,7 +3,7 @@ import { ReactComponent as Logo } from '../../assets/icons/logoipsum-284.svg'
 import NavMenu from './navmenu'
 import './navbar.css'
 import { HiMenu } from 'react-icons/hi';
-import MobileMenu from '../MobileMenu';
+import MobileMenu from './mobileMenu';
 
 
 const Navbar = () => {
@@ -20,19 +20,21 @@ const Navbar = () => {
           <div className='logo'>
             <Logo />
           </div>
-          <div>
+          <div className='desktop'>
             <NavMenu />
+          </div>
+          <div className='mobile'>
+            {isOpen ? <MobileMenu /> : null}
           </div>
           <div className='mobile_menu_icon' onClick={handleClick}>
             <HiMenu size='40' color="white"/>
           </div>
         </div>
       </nav>
-      <div>
-        {isOpen ? <MobileMenu /> : null}
-      </div>
+      
     </>
   )
 }
 
 export default Navbar
+

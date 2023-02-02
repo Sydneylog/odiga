@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import "./App.css";
 import Nav from './components/Nav/navbar'
 import Home from "./pages/Home";
@@ -10,7 +10,9 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Footer from './components/Footer'
 
+
 export default function App() {
+
   return (
     <div className="App">
       <Provider store={store}>

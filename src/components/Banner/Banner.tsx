@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {instance, params} from '../../api/axios'
+import {instance} from '../../api/axios'
+import requests from '../../api/requests'
 import './Banner.css'
 
 function Banner() {
@@ -19,17 +20,18 @@ function Banner() {
   const getData = async () => {
     try {
       // reqeust locationbased data
-      const res = await instance.get('locationBasedList', { params: params})
-      console.log('위치기반데이터', res)
+      const res = await instance.get('locationBasedList', { params: requests.fetchBasePath})
+      //console.log('위치기반데이터', res)
 
       const resAddr = res.data.response.body.items; 
       const getRandom = Math.floor(Math.random() * 10)
-      
       const infoId = resAddr.item[getRandom].contentid;
       setDist(resAddr.item[getRandom].dist);
+      setImg(resAddr.item[getRandom].firstimage);
       
+
       //get place detail
-      let paramDetail = {
+      const paramDetail = {
         contentId: String(infoId),
         defaultYN: 'Y',
         addrinfoYN: 'Y',
@@ -38,33 +40,18 @@ function Banner() {
         MobileApp: 'AppTest'
       }
 
-      const placeDetail = await instance.get('detailCommon', {params:paramDetail})
-      console.log('디테일', placeDetail)
+      const placeDetail = await instance.get('detailCommon', { params:paramDetail })
+      //console.log('디테일', placeDetail)
       const infoAddr = placeDetail.data.response.body.items;
       setInfo(infoAddr.item[0].overview)
       setTitle(infoAddr.item[0].title)
       setAddr(infoAddr.item[0].addr1)
-
-      //get image
-      let paramImage = {
-        numOfRows: '10',
-        pageNo: '1',
-        MobileOS: 'ETC',
-        MobileApp: 'AppTest',
-        contentId: String(infoId),
-        imageYN: 'Y',
-        subImageYN: 'Y'
-      }
-
-      const imageDetail = await instance.get('detailImage', {params:paramImage})
-      //console.log('이미지', imageDetail)
-      const imgAddr = imageDetail.data.response.body.items;
-      setImg(imgAddr.item[0].originimgurl)
+     
 
     } catch (error) {
       console.log(error)
     }
-    //console.log('이미지주소', img)
+    
   }
 const textLengthCut = (str:string, n:number) => {
     return str?.length > n ? str.substring(0, n) +'...' : str

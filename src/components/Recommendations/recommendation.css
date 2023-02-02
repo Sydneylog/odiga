@@ -10,3 +10,29 @@
   margin-left: 10px;
   margin-bottom: 5px;
 }
+.mini_title {
+  opacity:0;
+  font-size: 1.5rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:10px;
+  box-sizing:border-box;
+  position:absolute;
+  z-index:2;
+  top:0;
+  height:100%;
+  width:100%;
+  color:white;
+  font-weight:300;
+  background-color:rgba(0, 0, 0, 0.82);
+  transition: opacity 300ms ease-in-out;
+  word-break: keep-all;
+  line-height: 1.5;
+  text-align: center;
+}
+.mini_title:hover{
+  opacity:1;
+}
+
+

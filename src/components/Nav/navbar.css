@@ -20,7 +20,6 @@
 }
 .container{
   max-width: 1100px;
-  padding-right: 0 15px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -33,15 +32,18 @@
   justify-content: space-between;
   list-style-type: none;
   width: 100%;
-  padding-right:10px;
+  position:relative;
 }
 .mobile_menu_icon {
   display: none;
   margin-right: 10px
 }
 @media (max-width: 625px) {
-  .nav-elements {
+  .desktop{
     display:none;
+  }
+  .nav-elements {
+    display:block;
   }
   .mobile_menu_icon {
     display: block;

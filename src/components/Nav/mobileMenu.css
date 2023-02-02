@@ -1,0 +1,22 @@
+.mobile_menu_wrap{
+  display:none;
+}
+
+@media (max-width: 625px){
+  .mobile_menu_wrap{
+    display:block;
+    position:fixed;
+    top:60px;
+    width:100%;
+    height:100%;
+    background-color: #7286D3;
+    z-index: 10;
+    padding-top:20px;
+    box-sizing: border-box;
+  }
+
+  .nav-elements li{
+    margin: 20px 0 20px 20px;
+    font-size: 2rem
+  }
+}
