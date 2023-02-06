@@ -1,0 +1,25 @@
+.menu_list{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Dongle';
+  font-size: 1.1rem;
+  width:380px;
+  height:auto;
+  position:absolute;
+  top: 80px;
+  left: 20px;
+  border:1px solid red;
+
+}
+.menu_list li {
+  border-radius: 50px;
+  background-color: white;
+  border:1px solid black;
+  width:45px;
+  height:45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index:8
+}

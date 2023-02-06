@@ -7,9 +7,6 @@ const typeArray = ['12', '14', '15', '28', '38'];
 const randomType = typeArray[Math.floor(Math.random() * typeArray.length)];
 
 
-// handleGeoSucces 수정
-
-
 const requests = {
   //get locationbased data
   //base
