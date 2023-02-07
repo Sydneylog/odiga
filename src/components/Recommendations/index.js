@@ -28,17 +28,18 @@ const List = ({title, typeId, reqURL}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [recomSelected, setRecomSelected] = useState({})
 
-  const fetchData = useCallback( async() => {
+  const fetchData =  async() => {
     const res = await instance.get('locationBasedList', {params: reqURL});
     setRecommendations(res.data.response.body.items.item);
-    
-    recomArray.push(...res.data.response.body.items.item)
     console.log('리콤배열', recomArray)
-  }, [reqURL])
+    recomArray.push(...res.data.response.body.items.item)
+    console.log('리콤배열2', recomArray)
+    
+  }
 
   useEffect(() => {
     fetchData();
-  }, [fetchData])
+  }, [])
 
   const handleClick = (recommendation) => {
     setModalOpen(true);
@@ -102,8 +103,9 @@ const List = ({title, typeId, reqURL}) => {
     
   )
 }
-export { recomArray }
+
 export default List
+export { recomArray }
 
 
 

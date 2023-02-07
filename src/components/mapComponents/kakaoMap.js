@@ -44,17 +44,7 @@ const KakaoMap = () => {
       displayMarker(locPosition, message);
     }
 
-    // let positions = recoms.map(item => (
-    //   key = item.contentid},
-    //   title = item.title,
-    //   lat = item.mapy,
-    //   lng = item.mapx,
-    //   img = item.firstimage,
-    //   addr = item.addr1,
-    //   isMarkClicked = false
-    // ))
-
-    // console.log('재배열:', positions)
+    
     
 
     //마커표시 함수
