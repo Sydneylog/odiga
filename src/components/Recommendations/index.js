@@ -19,6 +19,10 @@ import './recommendation.css';
 //   reqURL: {};
 // }
 
+//각각의 컴포넌트 배열을 여기에 넣어서 합쳐주고 싶음
+const recomArray = [];
+
+//해당 컴포넌트는 4개 복사되어 있고 각각의 프롭들 받아오는 중
 const List = ({title, typeId, reqURL}) => {
   const [recommendations, setRecommendations] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,8 +30,10 @@ const List = ({title, typeId, reqURL}) => {
 
   const fetchData = useCallback( async() => {
     const res = await instance.get('locationBasedList', {params: reqURL});
-    console.log('추천리스트', res);
     setRecommendations(res.data.response.body.items.item);
+    
+    recomArray.push(...res.data.response.body.items.item)
+    console.log('리콤배열', recomArray)
   }, [reqURL])
 
   useEffect(() => {
@@ -96,8 +102,9 @@ const List = ({title, typeId, reqURL}) => {
     
   )
 }
-
+export { recomArray }
 export default List
+
 
 
 const Content = styled.div`

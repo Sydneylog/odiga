@@ -1,9 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import useLocation from '../slice/locationSlice'
+import useRecomArray from '../slice/recomSlice'
+
 
 const store = configureStore({
   reducer:{
-    located: useLocation
+    located: useLocation,
+    recommendations: useRecomArray
   }
 });
 

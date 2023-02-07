@@ -4,6 +4,24 @@ import {instance} from '../../api/axios'
 import './Banner.css'
 
 function Banner() {
+  // const [located, setLocated] = useState({})
+  // function getSuccess(position) {
+  //   const positionObj = {
+  //     lat : position.coords.latitude,
+  //     lng : position.coords.longitude,
+  //   }
+  //   setLocated(positionObj)
+  //   console.log('처음실행', located);
+  // }
+  // function getError() {
+  //   alert('현재위치를 찾을 수 업습니다.');
+  // }
+  
+  // const getLocation = () => {
+  //   navigator.geolocation.getCurrentPosition(getSuccess, getError)
+  //   getData()
+  // }
+
 
   const position = useSelector((state) => {
     return state.located.position
@@ -14,13 +32,14 @@ function Banner() {
   const [addr, setAddr] = useState('')
   const [img, setImg] = useState([])
   const [dist, setDist] = useState('')
+
   const textLengthCut = (str, n) => {
     return str?.length > n ? str.substring(0, n) +'...' : str
   }
 
   const getData = async () => {
-    const lat = String(position.lat)
-    const lng = String(position.lng)
+    const lat = position.lat
+    const lng = position.lng
     console.log(lat, lng)
 
     const res = await instance.get('locationBasedList', { params: {
@@ -29,8 +48,8 @@ function Banner() {
       MobileOS: 'ETC',
       MobileApp: 'AppTest',
       arrange:'Q',
-      mapX: lng,
-      mapY: lat,
+      mapX: lng, //located.lng,
+      mapY: lat, //located.lat,
       radius: '2000',
       listYN: 'Y'
   }})
@@ -63,10 +82,10 @@ function Banner() {
     setTitle(infoAddr.item[0].title)
     setAddr(infoAddr.item[0].addr1)
   }
+
   useEffect(() => {
     getData();
   }, [])
- 
 
   return (
     <div className='banner'>    

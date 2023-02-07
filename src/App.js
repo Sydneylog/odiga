@@ -9,14 +9,13 @@ import GlobalStyle from "./globalStyle";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import Footer from './components/Footer'
-import Location from './components/Location'
+//import Location from './components/Location'
 
 
 export default function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <Location />
         <BrowserRouter>
           <GlobalStyle />
           <Nav />

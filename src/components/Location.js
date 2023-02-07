@@ -1,23 +1,28 @@
-import React from 'react'
-import { useDispatch } from 'react-redux';
-
+import {useState, useEffect} from 'react'
 
 const Location = () => {
-  const dispatch = useDispatch();
+  const [located, setLocated] = useState({lat:'37.71', lng:'126.73'})
 
-  navigator.geolocation.getCurrentPosition(getSuccess, getError)
-
-  function getSuccess(position) {
-    // 위도
-    const lat = position.coords.latitude;
-    // 경도
-    const lng = position.coords.logitude;
-    // 위도 경도 오차(m)
-  }
-  function getError() {
-    alert('Geolocation Error');
-  }
+  useEffect(() => {
+    function getSuccess(position) {
+      const positionObj = {
+        lat : position.coords.latitude,
+        lng : position.coords.longitude,
+      }
+      setLocated(positionObj)
+      console.log('처음실행', located);
+    }
+    function getError() {
+      alert('현재위치를 찾을 수 업습니다.');
+    }
+    const getPositionObj = () => {
+      navigator.geolocation.getCurrentPosition(getSuccess, getError)
+    }
+    getPositionObj()
+    
+  }, [])
 }
 
 
 export default Location
+

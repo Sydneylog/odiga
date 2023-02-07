@@ -1,10 +1,19 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import './kakaoMap.css'
 const {kakao} = window;
-
 const KakaoMap = () => {
-  const position = useSelector((state) => {
+  const recoms = useSelector( state => {
+    console.log("스테이트 구성", state)
+    return state.recommendations
+  }) 
+
+  console.log('스토어추천 배열', recoms)
+
+
+
+  const position = useSelector(state => {
     return state.located.position
   })
 
@@ -35,7 +44,18 @@ const KakaoMap = () => {
       displayMarker(locPosition, message);
     }
 
+    // let positions = recoms.map(item => (
+    //   key = item.contentid},
+    //   title = item.title,
+    //   lat = item.mapy,
+    //   lng = item.mapx,
+    //   img = item.firstimage,
+    //   addr = item.addr1,
+    //   isMarkClicked = false
+    // ))
 
+    // console.log('재배열:', positions)
+    
 
     //마커표시 함수
     function displayMarker(locPosition, message) {
@@ -54,13 +74,24 @@ const KakaoMap = () => {
       // 인포윈도우를 마커위에 표시합니다 
       infowindow.open(map, marker);
       // 지도 중심좌표를 접속위치로 변경합니다
-      map.setCenter(locPosition);      
-  }  
+      map.setCenter(locPosition);    
+
+    }  
+
+
+  
 
   }, [])
 
   return (
-    <div id="map" className='kakao_map'></div>
+    <div id="map" className='kakao_map'>
+      <ul className='menu_list'>
+        <li>관광지</li>
+        <li>문화시설</li>
+        <li>행사</li>
+        <li>쇼핑</li>
+      </ul>
+    </div>
   )
 }
 
