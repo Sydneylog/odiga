@@ -1,23 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import {instance} from '../../api/axios';
 
 import './kakaoMap.css'
+
+
 const {kakao} = window;
 const KakaoMap = () => {
-  const recoms = useSelector( state => {
-    console.log("스테이트 구성", state)
-    return state.recommendations
-  }) 
-
-  console.log('스토어추천 배열', recoms)
-
-
 
   const position = useSelector(state => {
     return state.located.position
   })
+  const [resultArray, setTotalArray] = useState(null)
 
-  useEffect(()=>{
+  const getData = async () => {
+    const res = await instance.get('locationBasedList', { params: {
+      numOfRows: '40',
+        pageNo: '1',
+        MobileOS: 'ETC',
+        MobileApp: 'AppTest',
+        arrange:'Q',
+        mapX: position.lng, //located.lng,
+        mapY: position.lat, //located.lat,
+        radius: '2000',
+        listYN: 'Y'
+    }})
+
+    const totalArray = []
+    totalArray.push(res.data.response.body.items.item)
+    setTotalArray(totalArray)
+    console.log('총어레이',totalArray)
+ 
+    console.log('넘어온', resultArray[0])
+    
+    //const designedArray = resultArray.map(location => (location.title))
     const container = document.getElementById('map');
     const options = {
       center: new kakao.maps.LatLng(position.lat, position.lng),
@@ -25,57 +41,53 @@ const KakaoMap = () => {
     };
     const map = new kakao.maps.Map(container, options);
 
-    //중심 현재위치 마커
-    if (position) {
-      let lat = position.lat, // 위도
-          lon = position.lng; // 경도
-          
-      let locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-      message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
-          
-      // 마커와 인포윈도우를 표시합니다
-      displayMarker(locPosition, message);
-      
-    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      
-      var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-          message = 'geolocation을 사용할수 없어요..'
-          
-      displayMarker(locPosition, message);
-    }
-
+    //const markerPosition  = new kakao.maps.LatLng(position.lat, position.lng)
+    // let marker = new kakao.maps.Marker({
+    //   position: markerPosition
+    // });
+    //marker.setMap(map);
+    // 참고 https://velog.io/@nemo/react-error-cannot-read-property
     
-    
+    let positions = [resultArray && resultArray[0].map( location => {
+      return {
+        contentId: location.contentid,
+        title: location.title,
+        latlng: new kakao.maps.LatLng(location.mapy, location.mapx),
+        img: location.firstimage,
+        addr: location.addr1,
+        dist: String(Math.floor(Math.round(location.dist)))
+      }
+    })]
+    console.log('재배열',positions[0])
+    console.log(positions[0].length)
 
-    //마커표시 함수
-    function displayMarker(locPosition, message) {
+    const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    for (var i = 0; i < positions[0].length; i ++) {
+    
+      // 마커 이미지의 이미지 크기 입니다
+      const imageSize = new kakao.maps.Size(24, 35); 
+      
+      // 마커 이미지를 생성합니다    
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      
       // 마커를 생성합니다
-      var marker = new kakao.maps.Marker({  
-          map: map, 
-          position: locPosition
-      }); 
-      var iwContent = message, // 인포윈도우에 표시할 내용
-          iwRemoveable = true;
-      // 인포윈도우를 생성합니다
-      var infowindow = new kakao.maps.InfoWindow({
-          content : iwContent,
-          removable : iwRemoveable
+      let marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[0][i].latlng, // 마커를 표시할 위치
+          title : positions[0][i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image : markerImage // 마커 이미지 
       });
-      // 인포윈도우를 마커위에 표시합니다 
-      infowindow.open(map, marker);
-      // 지도 중심좌표를 접속위치로 변경합니다
-      map.setCenter(locPosition);    
-
-    }  
-
-
-  
-
+    }
+  } 
+    
+  useEffect(()=>{
+    getData()
   }, [])
 
   return (
     <div id="map" className='kakao_map'>
       <ul className='menu_list'>
+        <li>전체</li>
         <li>관광지</li>
         <li>문화시설</li>
         <li>행사</li>

@@ -10,17 +10,13 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/pagination';
 import './recommendation.css';
 
-
-
-
 // interface recoPropType {
 //   title: string;
 //   typeId: string;
 //   reqURL: {};
 // }
-
 //각각의 컴포넌트 배열을 여기에 넣어서 합쳐주고 싶음
-const recomArray = [];
+
 
 //해당 컴포넌트는 4개 복사되어 있고 각각의 프롭들 받아오는 중
 const List = ({title, typeId, reqURL}) => {
@@ -31,9 +27,7 @@ const List = ({title, typeId, reqURL}) => {
   const fetchData =  async() => {
     const res = await instance.get('locationBasedList', {params: reqURL});
     setRecommendations(res.data.response.body.items.item);
-    console.log('리콤배열', recomArray)
-    recomArray.push(...res.data.response.body.items.item)
-    console.log('리콤배열2', recomArray)
+    console.log('추천리스트', res.data.response.body.items);
     
   }
 
@@ -105,7 +99,6 @@ const List = ({title, typeId, reqURL}) => {
 }
 
 export default List
-export { recomArray }
 
 
 
