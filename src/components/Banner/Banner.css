@@ -1,22 +1,18 @@
 .banner {
     font-family: 'Dongle';
-    
 }
 
 .banner_img{
     color: rgb(233, 233, 233);
     object-fit: contain;
     height: 380px;
-
 }
 @media (min-width: 1200px){
     .banner_img {
         position: relative;
         height:600px;
     }
-    
 }
-
 .text_box{
     position:relative;
     height:100%;
