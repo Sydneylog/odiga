@@ -1,30 +1,24 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {instance} from '../../api/axios';
-import { setSightseeing } from '../../slice/markerSlice';
-
-import './kakaoMap.css'
-
-
-const {kakao} = window;
+import styled from 'styled-components';
+import Map from './mapMaker';
 
 
 const KakaoMap = () => {
+   //현재위치 store에서 가져오기
+  const position = useSelector(state => {
+    return state.located.position
+  })
+
   const markerImageSrc =
-  "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png"
+  "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"
 
   const imageSize = { width: 22, height: 26 }
   const spriteSize = { width: 36, height: 98 }
   const [loading, setLoading] = useState(false)
   const [totalArray, setTotalArray] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all")
-  //현재위치 store에서 가져오기
-  const position = useSelector(state => {
-    return state.located.position
-  })
-  //호출된 배열 관리
-    
   const getData = async () => {
       //API 호출
       try{
@@ -40,8 +34,7 @@ const KakaoMap = () => {
             radius: '3000',
             listYN: 'Y'
       }}).then(res => setTotalArray(res.data.response.body.items.item))
-      //console.log('레스원본', res.data.response.body.items.item)
-      //setTotalArray( res.data.response.body.items.item)
+      
       
     } catch(e) {
       console.log(e)
@@ -122,8 +115,8 @@ const KakaoMap = () => {
     )]
     const accomondationsOrigin = {x:20, y:40}
 
+  //category 선택에 따른 렌더링
   useEffect(()=>{
-    
     const allMenu = document.getElementById('allMenu')
     const sightseeingMenu = document.getElementById('sightseeingMenu')
     const cultureMenu = document.getElementById('cultureMenu')
@@ -164,6 +157,9 @@ const KakaoMap = () => {
   }, [selectedCategory])
 
 
+  
+
+ 
 
   //관광지 12 / 문화시설 14 / 행사공연축제 15 / 여행코스 25 / 레포츠 28 / 쇼핑 38 / 숙박 32 /
 
@@ -176,33 +172,21 @@ const KakaoMap = () => {
   }
 
   return (
-    
     <>
     <div id='mapwrap'>
-      <Map
-        id={'map'}
-        center={{
-          lat: position.lat,
-          lng: position.lng
-        }}
-        level={6}
-      >
+      <Map id='map'>
         {selectedCategory === 'all' &&
           showAllIcons.map((position) => (
-            <MapMarker 
+            <MapMarker
               key={`all-${position.lat},${position.lng}`}
               position={position}
               image={{
                 src: markerImageSrc,
                 size: imageSize,
-                options: {
-                  spriteSize: spriteSize,
-                  spriteOrigin: allOrigin
-                }
               }}
             />
         ))}
-        {selectedCategory === 'sightseeing' &&
+        {/* {selectedCategory === 'sightseeing' &&
           sightSeeingIcons.map((position) => (
             <MapMarker 
               key={`sightseeing-${position.lat},${position.lng}`}
@@ -276,8 +260,9 @@ const KakaoMap = () => {
                 }
               }}
             />
-        ))}
+        ))} */}
       </Map>
+
       {/* 마커카테고리 */}
       <div className='category'>
         <ul>
@@ -315,7 +300,7 @@ const KakaoMap = () => {
 
 export default KakaoMap
 
-const Map = styled.div`
-`
 const MapMarker = styled.div`
 `
+
+
