@@ -1,100 +1,321 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import {instance} from '../../api/axios';
+import { setSightseeing } from '../../slice/markerSlice';
 
 import './kakaoMap.css'
 
 
 const {kakao} = window;
-const KakaoMap = () => {
 
+
+const KakaoMap = () => {
+  const markerImageSrc =
+  "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png"
+
+  const imageSize = { width: 22, height: 26 }
+  const spriteSize = { width: 36, height: 98 }
+  const [loading, setLoading] = useState(false)
+  const [totalArray, setTotalArray] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  //현재위치 store에서 가져오기
   const position = useSelector(state => {
     return state.located.position
   })
-  const [resultArray, setTotalArray] = useState(null)
-
+  //호출된 배열 관리
+    
   const getData = async () => {
-    const res = await instance.get('locationBasedList', { params: {
-      numOfRows: '40',
-        pageNo: '1',
-        MobileOS: 'ETC',
-        MobileApp: 'AppTest',
-        arrange:'Q',
-        mapX: position.lng, //located.lng,
-        mapY: position.lat, //located.lat,
-        radius: '2000',
-        listYN: 'Y'
-    }})
-
-    const totalArray = []
-    totalArray.push(res.data.response.body.items.item)
-    setTotalArray(totalArray)
-    console.log('총어레이',totalArray)
- 
-    console.log('넘어온', resultArray[0])
-    
-    //const designedArray = resultArray.map(location => (location.title))
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(position.lat, position.lng),
-      level: 6
-    };
-    const map = new kakao.maps.Map(container, options);
-
-    //const markerPosition  = new kakao.maps.LatLng(position.lat, position.lng)
-    // let marker = new kakao.maps.Marker({
-    //   position: markerPosition
-    // });
-    //marker.setMap(map);
-    // 참고 https://velog.io/@nemo/react-error-cannot-read-property
-    
-    let positions = [resultArray && resultArray[0].map( location => {
-      return {
-        contentId: location.contentid,
-        title: location.title,
-        latlng: new kakao.maps.LatLng(location.mapy, location.mapx),
-        img: location.firstimage,
-        addr: location.addr1,
-        dist: String(Math.floor(Math.round(location.dist)))
-      }
-    })]
-    console.log('재배열',positions[0])
-    console.log(positions[0].length)
-
-    const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-    for (var i = 0; i < positions[0].length; i ++) {
-    
-      // 마커 이미지의 이미지 크기 입니다
-      const imageSize = new kakao.maps.Size(24, 35); 
+      //API 호출
+      try{
+        setLoading(true)
+        const res = await instance.get('locationBasedList', { params: {
+          numOfRows: '100',
+            pageNo: '1',
+            MobileOS: 'ETC',
+            MobileApp: 'AppTest',
+            arrange:'Q',
+            mapX: position.lng, //located.lng,
+            mapY: position.lat, //located.lat,
+            radius: '3000',
+            listYN: 'Y'
+      }}).then(res => setTotalArray(res.data.response.body.items.item))
+      //console.log('레스원본', res.data.response.body.items.item)
+      //setTotalArray( res.data.response.body.items.item)
       
-      // 마커 이미지를 생성합니다    
-      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-      
-      // 마커를 생성합니다
-      let marker = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[0][i].latlng, // 마커를 표시할 위치
-          title : positions[0][i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image : markerImage // 마커 이미지 
-      });
+    } catch(e) {
+      console.log(e)
     }
-  } 
-    
+    setLoading(false)
+  };
+  
+    useEffect(() => {
+      getData()
+    }, []);
+
+    console.log('불러온어레이',totalArray)
+    //전체
+    const showAllIcons = [totalArray.map(
+    item => { 
+      return {
+        lat: item.mapy,
+        lng: item.mapx
+      }
+    }
+    )]
+    const allOrigin = {x:20, y:15}
+    //console.log(showAllIcons, allOrigin)
+    //관광지 타입 12
+    const sightSeeingIcons = [totalArray.filter((place => place.contenttypeid === '12'
+      )).map(
+      item => { 
+        return {
+          lat: item.mapy,
+          lng: item.mapx
+        }
+      }
+    )]
+    console.log('야', sightSeeingIcons)
+    const sightSeeingOrigin = {x:20, y:20}
+    //문화시설 타입 14
+    const culturalPlace = [totalArray.filter((place => place.contenttypeid === '14'
+      )).map(
+      item => { 
+        return {
+          lat: item.mapy,
+          lng: item.mapx
+        }
+      }
+    )]
+    const culturalPlaceOrigin = {x:20, y:25}
+    //행사공연축제 타입 15
+    const festivals = [totalArray.filter((place => place.contenttypeid === '15'
+      )).map(
+      item => { 
+        return {
+          lat: item.mapy,
+          lng: item.mapx
+        }
+      }
+    )]
+    const festivalsOrigin = {x:20, y:30}
+    //쇼핑 타입 38
+    const shopping = [totalArray.filter((place => place.contenttypeid === '15'
+      )).map(
+      item => { 
+        return {
+          lat: item.mapy,
+          lng: item.mapx
+        }
+      }
+    )]
+    const shoppingOrigin = {x:20, y:35}
+    //숙박 타입 32
+    const accomondations = [totalArray.filter((place => place.contenttypeid === '15'
+      )).map(
+      item => { 
+        return {
+          lat: item.mapy,
+          lng: item.mapx
+        }
+      }
+    )]
+    const accomondationsOrigin = {x:20, y:40}
+
   useEffect(()=>{
-    getData()
-  }, [])
+    
+    const allMenu = document.getElementById('allMenu')
+    const sightseeingMenu = document.getElementById('sightseeingMenu')
+    const cultureMenu = document.getElementById('cultureMenu')
+    const festivalMenu = document.getElementById('festivalMenu')
+    const shoppingMenu = document.getElementById('shoppingMenu')
+    
+    if(selectedCategory === "all"){
+      allMenu.className = "menu_selected"
+      sightseeingMenu.className = ""
+      cultureMenu.className = ""
+      festivalMenu.className = ""
+      shoppingMenu.className = ""
+    } else if (selectedCategory === "sightseeing"){
+      allMenu.className = ""
+      sightseeingMenu.className = "menu_selected"
+      cultureMenu.className = ""
+      festivalMenu.className = ""
+      shoppingMenu.className = ""
+    } else if (selectedCategory === "culture"){
+      allMenu.className = ""
+      sightseeingMenu.className = ""
+      cultureMenu.className = "menu_selected"
+      festivalMenu.className = ""
+      shoppingMenu.className = ""
+    } else if (selectedCategory === "festival"){
+      allMenu.className = ""
+      sightseeingMenu.className = ""
+      cultureMenu.className = ""
+      festivalMenu.className = "menu_selected"
+      shoppingMenu.className = ""
+    } else if (selectedCategory === "shopping"){
+      allMenu.className = ""
+      sightseeingMenu.className = ""
+      cultureMenu.className = ""
+      festivalMenu.className = ""
+      shoppingMenu.className = "menu_selected"
+    }
+  }, [selectedCategory])
+
+
+
+  //관광지 12 / 문화시설 14 / 행사공연축제 15 / 여행코스 25 / 레포츠 28 / 쇼핑 38 / 숙박 32 /
+
+  if(loading){
+    return <div>로딩중</div>
+  }
+
+  if(!totalArray){
+    return null
+  }
 
   return (
-    <div id="map" className='kakao_map'>
-      <ul className='menu_list'>
-        <li>전체</li>
-        <li>관광지</li>
-        <li>문화시설</li>
-        <li>행사</li>
-        <li>쇼핑</li>
-      </ul>
+    
+    <>
+    <div id='mapwrap'>
+      <Map
+        id={'map'}
+        center={{
+          lat: position.lat,
+          lng: position.lng
+        }}
+        level={6}
+      >
+        {selectedCategory === 'all' &&
+          showAllIcons.map((position) => (
+            <MapMarker 
+              key={`all-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: allOrigin
+                }
+              }}
+            />
+        ))}
+        {selectedCategory === 'sightseeing' &&
+          sightSeeingIcons.map((position) => (
+            <MapMarker 
+              key={`sightseeing-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: sightSeeingOrigin
+                }
+              }}
+            />
+        ))}
+        {selectedCategory === 'culture' &&
+          culturalPlace.map((position) => (
+            <MapMarker 
+              key={`sightseeing-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: culturalPlaceOrigin
+                }
+              }}
+            />
+        ))}
+        {selectedCategory === 'festival' &&
+          festivals.map((position) => (
+            <MapMarker 
+              key={`sightseeing-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: festivalsOrigin
+                }
+              }}
+            />
+        ))}
+        {selectedCategory === 'shopping' &&
+          shopping.map((position) => (
+            <MapMarker 
+              key={`sightseeing-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: shoppingOrigin
+                }
+              }}
+            />
+        ))}
+        {selectedCategory === 'accomondations' &&
+         accomondations.map((position) => (
+            <MapMarker 
+              key={`sightseeing-${position.lat},${position.lng}`}
+              position={position}
+              image={{
+                src: markerImageSrc,
+                size: imageSize,
+                options: {
+                  spriteSize: spriteSize,
+                  spriteOrigin: accomondationsOrigin
+                }
+              }}
+            />
+        ))}
+      </Map>
+      {/* 마커카테고리 */}
+      <div className='category'>
+        <ul>
+          <li id='allMenu' onClick={()=> {
+            setSelectedCategory('all')}}>
+            <span className='ico_comm ico_cofee'></span>
+            전체
+          </li>
+          <li id='sightseeingMenu' onClick={()=> {
+            setSelectedCategory('sightseeing')}}>
+            <span className='ico_comm ico_store'></span>
+            관광지
+          </li>
+          <li id='cultureMenu' onClick={()=> {
+            setSelectedCategory('culture')}}>
+            <span className='ico_comm ico_carpark'></span>
+            문화시설
+          </li>
+          <li id='festivalMenu' onClick={()=> {
+            setSelectedCategory('cfestival')}}>
+            <span className='ico_comm ico_store'></span>
+            축제
+          </li>
+          <li id='shoppingMenu' onClick={()=> {
+            setSelectedCategory('shopping')}}>
+            <span className='ico_comm ico_store'></span>
+            쇼핑
+          </li>
+        </ul>
+      </div>
     </div>
+    </>
   )
 }
 
 export default KakaoMap
+
+const Map = styled.div`
+`
+const MapMarker = styled.div`
+`
