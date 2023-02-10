@@ -58,6 +58,5 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
     "gh-pages": "^5.0.0"
-  },
-  "homepage": "sydneylog.github.io/odiga"
+  }
 }
