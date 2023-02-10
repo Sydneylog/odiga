@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {instance} from '../../api/axios'
 import './Banner.css'
+import Spinner from '../../assets/icons/Spin-1s-200px.svg'
 
 function Banner() {
   const getCurrentLocation = () => {
@@ -20,54 +21,68 @@ function Banner() {
   const [addr, setAddr] = useState('')
   const [img, setImg] = useState([])
   const [dist, setDist] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const textLengthCut = (str, n) => {
     return str?.length > n ? str.substring(0, n) +'...' : str
   }
 
   const getDataByCurrentLocation = async (lat, lng) => {
-    let called = {
-      numOfRows: '20',
-      pageNo: '1',
-      MobileOS: 'ETC',
-      MobileApp: 'AppTest',
-      arrange:'Q',
-      mapX: lng, //located.lng,
-      mapY: lat, //located.lat,
-      radius: '2000',
-      listYN: 'Y'
-    }
-    const res = await instance.get('locationBasedList', { params: called})
-      
-    //api res 숏컷
-    const resAddr = res.data.response.body.items; 
-    console.log('받아온', resAddr)
-    //난수 생성
-    const getRandom = Math.floor(Math.random() * 10)
 
-    //랜덤 컨텐츠 아이디 선택
-    const infoId = resAddr.item[getRandom].contentid;
-    setDist(resAddr.item[getRandom].dist);
-    setImg(resAddr.item[getRandom].firstimage);
-
-    //get place detail
-    const paramDetail = {
-      contentId: String(infoId),
-      defaultYN: 'Y',
-      addrinfoYN: 'Y',
-      overviewYN: 'Y',
-      MobileOS: 'ETC',
-      MobileApp: 'AppTest'
-    }
-
-    const placeDetail = await instance.get('detailCommon', { params:paramDetail })
-    //console.log('디테일', placeDetail)
-    const infoAddr = placeDetail.data.response.body.items;
-    setInfo(infoAddr.item[0].overview)
-    setTitle(infoAddr.item[0].title)
-    setAddr(infoAddr.item[0].addr1)
+    try{
+      setLoading(true)
+      let called = {
+        numOfRows: '20',
+        pageNo: '1',
+        MobileOS: 'ETC',
+        MobileApp: 'AppTest',
+        arrange:'Q',
+        mapX: lng, //located.lng,
+        mapY: lat, //located.lat,
+        radius: '2000',
+        listYN: 'Y'
+      }
+      const res = await instance.get('locationBasedList', { params: called})
+    
+      //api res 숏컷
+      const resAddr = res.data.response.body.items; 
+      console.log('받아온', resAddr)
+      //난수 생성
+      const getRandom = Math.floor(Math.random() * 10)
+   
+      //랜덤 컨텐츠 아이디 선택
+      const infoId = resAddr.item[getRandom].contentid;
+      setDist(resAddr.item[getRandom].dist);
+      setImg(resAddr.item[getRandom].firstimage);
+   
+      //get place detail
+      const paramDetail = {
+        contentId: String(infoId),
+        defaultYN: 'Y',
+        addrinfoYN: 'Y',
+        overviewYN: 'Y',
+        MobileOS: 'ETC',
+        MobileApp: 'AppTest'
+      }
+   
+      const placeDetail = await instance.get('detailCommon', { params:paramDetail })
+      //console.log('디테일', placeDetail)
+      const infoAddr = placeDetail.data.response.body.items;
+      setInfo(infoAddr.item[0].overview)
+      setTitle(infoAddr.item[0].title)
+      setAddr(infoAddr.item[0].addr1)
+    } catch(err) {}
+    setLoading(false)
   }
-
+ 
+  if(loading) {
+    return <div className='banner'>
+            <div>
+              <img src={Spinner} alt="loading" className='banner_loading'/>
+            </div>
+          </div>
+  }
+    
 
   return (
     <div className='banner'>    

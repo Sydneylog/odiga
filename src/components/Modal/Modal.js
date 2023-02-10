@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect} from 'react'
 import { instance } from '../../api/axios';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
-import Spinner from '../../assets/icons/black.svg';
+import Spinner from '../../assets/icons/Spin-1s-200px.svg';
 import './modal.css'
 
 // interface modalProps {
@@ -78,7 +78,7 @@ const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
             <ul>
               <li><span className='bold'>주소</span>: { addr1 }</li>
               <li><span className='bold'>현재 위치에서의 거리</span>: { distRound }m</li>
-              {loading? <img src={Spinner} alt='loading' className='overview_loading'/> : <li><span className='bold'>장소 소개</span><br/> { textLengthCut(overview, 100) }</li>
+              {loading? <img src={Spinner} alt='loading' className='overview_loading'/> : overview ? <li><span className='bold'>장소 소개</span><br/> { textLengthCut(overview, 100) }</li> : <p className='no_overview'>장소 소개 내용이 없습니다.</p>
               }
             </ul>
           </div>

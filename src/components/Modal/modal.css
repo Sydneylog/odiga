@@ -96,5 +96,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  margin:auto;
+}
+.no_overview{
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 300;
 }

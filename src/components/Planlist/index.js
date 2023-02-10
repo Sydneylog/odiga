@@ -29,16 +29,30 @@ function Index() {
 
   return (
     <Container>
-      <h3>My plans</h3>
       <div style={{
         position: 'relative',
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center'
       }}>
-        <PlanBox>Planlist1</PlanBox>
-        <PlanBox>Planlist2</PlanBox>
-        <PlanBox>Planlist3</PlanBox>
+        <PlanBox>
+            <h3 className='plan_title'>자주 가는 곳</h3>
+            <p className='plan_date'>2023-02-01</p>
+            <p className='plan_rep'>대표 장소 이름</p>
+            <button className='plan_btn'> 자세히 보기</button>
+        </PlanBox>
+        <PlanBox>
+          <h3 className='plan_title'>동네 모임 코스</h3>
+          <p className='plan_date'>2023-01-25</p>
+          <p className='plan_rep'>대표 장소 이름</p>
+          <button className='plan_btn'> 자세히 보기</button>
+        </PlanBox>
+        <PlanBox>
+        <h3 className='plan_title'>주변 맛집</h3>
+          <p className='plan_date'>2023-01-10</p>
+          <p className='plan_rep'>대표 장소 이름</p>
+          <button className='plan_btn'> 자세히 보기</button>
+        </PlanBox>
       </div>
     </Container>
   )
@@ -51,12 +65,20 @@ const Container = styled.div`
   margin-top:30px;
   width:100vw;
   height: 220px;
-  background-color: #E5E0FF
+  background-color: #E5E0FF;
+  padding: 20px;
+  box-sizing: border-box;
+  display:grid;
+  font-family:Dongle;
+
 `
 const PlanBox = styled.div`
-  border-radius: 4px;
+  border-radius: 10px;
   width:30%;
-  height:180px;
+  height:95%;
   background-color: #FFF2F2;
+  text-align:center;
+  position:relative;
+  border: 3px solid #f7d8d8;
 
 `
