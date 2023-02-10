@@ -3,6 +3,7 @@ import NavMenu from './navmenu'
 import './navbar.css'
 import { HiMenu } from 'react-icons/hi';
 import MobileMenu from './mobileMenu';
+import Odiga from '../../assets/icons/odigaLogo.png'
 
 
 const Navbar = () => {
@@ -19,7 +20,7 @@ const Navbar = () => {
           <div className='logo'>
             <img
               className='logo_img'
-              src='./odigaLogo.png' 
+              src={Odiga} 
               alt="오디가"
             />
           </div>

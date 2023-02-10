@@ -123,8 +123,8 @@ const KakaoMap = () => {
                       `
       let infowindow = new kakao.maps.InfoWindow({
         content: iwContent,
-        
       });
+    
       kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
       kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));;
     }
@@ -138,6 +138,7 @@ const KakaoMap = () => {
           infowindow.close();
       };
     }
+    
   }
 
   

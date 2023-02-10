@@ -38,7 +38,10 @@
   color: #5e79c4;
 }
 
-
+.swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal{
+  bottom: 0px;
+  z-index: 3;
+}
 
 
 
