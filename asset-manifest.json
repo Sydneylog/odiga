@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/odiga/static/css/main.4667e608.css",
+    "main.js": "/odiga/static/js/main.33121106.js",
+    "static/js/787.dc18143c.chunk.js": "/odiga/static/js/787.dc18143c.chunk.js",
+    "static/media/Spin-1s-200px.svg": "/odiga/static/media/Spin-1s-200px.b988d774f4841d22ad2b85cac1a83816.svg",
+    "index.html": "/odiga/index.html",
+    "main.4667e608.css.map": "/odiga/static/css/main.4667e608.css.map",
+    "main.33121106.js.map": "/odiga/static/js/main.33121106.js.map",
+    "787.dc18143c.chunk.js.map": "/odiga/static/js/787.dc18143c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4667e608.css",
+    "static/js/main.33121106.js"
+  ]
+}
