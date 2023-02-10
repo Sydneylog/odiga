@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {instance} from '../../api/axios'
 import './Banner.css'
 
 function Banner() {
-  // const [located, setLocated] = useState({})
-  // function getSuccess(position) {
-  //   const positionObj = {
-  //     lat : position.coords.latitude,
-  //     lng : position.coords.longitude,
-  //   }
-  //   setLocated(positionObj)
-  //   console.log('처음실행', located);
-  // }
-  // function getError() {
-  //   alert('현재위치를 찾을 수 업습니다.');
-  // }
-  
-  // const getLocation = () => {
-  //   navigator.geolocation.getCurrentPosition(getSuccess, getError)
-  //   getData()
-  // }
-
-
-  const position = useSelector((state) => {
-    return state.located.position
-  })
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let lng = position.coords.longitude;
+      console.log(lat, lng);
+      getDataByCurrentLocation(lat, lng);
+    })
+  };
+  useEffect(() => {
+    getCurrentLocation()
+  },[])
   
   const [info, setInfo] = useState([])
   const [title, setTitle] = useState('')
@@ -37,12 +25,8 @@ function Banner() {
     return str?.length > n ? str.substring(0, n) +'...' : str
   }
 
-  const getData = async () => {
-    const lat = position.lat
-    const lng = position.lng
-    console.log(lat, lng)
-
-    const res = await instance.get('locationBasedList', { params: {
+  const getDataByCurrentLocation = async (lat, lng) => {
+    let called = {
       numOfRows: '20',
       pageNo: '1',
       MobileOS: 'ETC',
@@ -52,11 +36,12 @@ function Banner() {
       mapY: lat, //located.lat,
       radius: '2000',
       listYN: 'Y'
-  }})
+    }
+    const res = await instance.get('locationBasedList', { params: called})
       
     //api res 숏컷
     const resAddr = res.data.response.body.items; 
-    
+    console.log('받아온', resAddr)
     //난수 생성
     const getRandom = Math.floor(Math.random() * 10)
 
@@ -83,9 +68,6 @@ function Banner() {
     setAddr(infoAddr.item[0].addr1)
   }
 
-  useEffect(() => {
-    getData();
-  }, [])
 
   return (
     <div className='banner'>    

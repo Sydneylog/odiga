@@ -29,6 +29,16 @@
   background-color: #f4f2ff;
   
 }
+.no_data{
+  word-break: keep-all;
+  font-size: 1.6rem;
+  text-align:left;
+  margin: 10px 0 10px 30px;
+  font-weight:400;
+  color: #5e79c4;
+}
+
+
 
 
 

@@ -1,25 +1,5 @@
 .placeBody{
   margin-top: 60px;
 }
-
-.planWrap {
-  background-color: white;
-  width:90vw;
-  height:300px;
-  margin:auto;
-  font-family: 'Dongle';
-  font-size: 1.5rem;
-}
-.planWrap .innerWrap {
-  position: relative;
-}
-.planWrap .innerWrap .innerBoxes{
-  border: 1px solid #222;
-  border-radius: 4px;
-}
-.planWrap .innerWrap .innerBoxes .selected_place {
-  border: 1px solid #222;
-  border-radius: 5px;
-  width: 200px;
-  height: 200px;
-}
+.place_cont { overflow: hidden; }
+.place_cont * { touch-action: none; }

@@ -1,5 +1,7 @@
-
-.map{
+#meapwrap {
+  position:relative
+}
+#map{
   margin:auto;
   width:100%;
   height:100vh;
@@ -13,10 +15,10 @@
   font-family: 'Dongle';
   font-size: 1.1rem;
   height:auto;
-  position:absolute;
-  top: 20px;
+  position:fixed;
+  top: 80px;
   left: 20px;
-  border:1px solid red;
+  z-index: 2;
 
 }
 .menu_list li {
@@ -33,4 +35,77 @@
 }
 .menu_list li:not(last-child) {
   margin-right:5px;
+}
+
+.select_box {
+  background-color: white;
+  width:90vw;
+  height:200px;
+  margin:auto;
+  font-family: 'Dongle';
+  font-size: 1.5rem;
+  position:fixed;
+  left:5vw;
+  bottom:40px;
+  z-index: 2; 
+  font-family: 'Dongle';
+  border-radius: 10px;
+  border: 2px solid #222;
+  padding:10px;
+  box-sizing: border-box;
+}
+.select_box h3 {
+  font-size: 2.2rem;
+  text-align: center;
+  font-weight: 700;
+}
+.select_box .x_button {
+  cursor:pointer;
+  font-weight: 700;
+  font-size: 2rem;
+  position:absolute;
+  top:5px;
+  right:10px;
+  z-index:3;
+}
+.planWrap .innerBoxes{
+  border: 1px solid #222;
+  border-radius: 4px;
+}
+.planWrap .innerBoxes .selected_place {
+  border: 1px solid #222;
+  border-radius: 5px;
+  width: 200px;
+  margin:auto;
+}
+
+
+
+.memo_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:60px;
+  height:60px;
+  border-radius: 50%;
+  border: 1px solid #222;
+  background-color: white;
+  position:fixed;
+  bottom:80px;
+  right:5vw;
+  z-index: 2;
+  cursor:pointer;
+}
+
+.loading_wrap{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:100vw;
+  height:100vh;
+}
+.loading_wrap .loading_text {
+  text-align: center;
+  font-size: 2.0rem;
+  font-family: 'Dongle';
 }

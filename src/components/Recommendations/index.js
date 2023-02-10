@@ -9,31 +9,53 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import 'swiper/css/pagination';
 import './recommendation.css';
+import noImage from '../../assets/no_image.gif'
 
 // interface recoPropType {
 //   title: string;
 //   typeId: string;
 //   reqURL: {};
 // }
-//각각의 컴포넌트 배열을 여기에 넣어서 합쳐주고 싶음
+
 
 
 //해당 컴포넌트는 4개 복사되어 있고 각각의 프롭들 받아오는 중
-const List = ({title, typeId, reqURL}) => {
+const List = ({title, typeId}) => {
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let lng = position.coords.longitude;
+      console.log(lat, lng);
+      getDataByCurrentLocation(lat, lng);
+    })
+  };
+  useEffect(() => {
+    getCurrentLocation()
+  },[])
+
   const [recommendations, setRecommendations] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [recomSelected, setRecomSelected] = useState({})
 
-  const fetchData =  async() => {
-    const res = await instance.get('locationBasedList', {params: reqURL});
+  const getDataByCurrentLocation =  async(lat, lng) => {
+    let called = {
+      contentTypeId: typeId,
+      numOfRows: '10',
+      pageNo: '1',
+      MobileOS: 'ETC',
+      MobileApp: 'AppTest',
+      arrange:'Q',
+      mapX: lng,
+      mapY: lat,
+      radius: '3000',
+      listYN: 'Y'
+    }
+    const res = await instance.get('locationBasedList', {params: called});
     setRecommendations(res.data.response.body.items.item);
-    console.log('추천리스트', res.data.response.body.items);
+    console.log('추천리스트', res);
     
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [])
 
   const handleClick = (recommendation) => {
     setModalOpen(true);
@@ -43,6 +65,7 @@ const List = ({title, typeId, reqURL}) => {
   return (
     <div className='recom_list_wrap'>
       <h2 className='recom_title'>{ title }</h2>
+      {recommendations ?  
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
           loop={true}
@@ -75,12 +98,14 @@ const List = ({title, typeId, reqURL}) => {
           {recommendations.map(recommendation => (
             <SwiperSlide>
               <Slide>
-                <img
-                  key={recommendation.contentid}
-                  src={`${recommendation.firstimage}`}
-                  alt={recommendation.title}
-                  onClick={() => handleClick(recommendation)}
-                />
+                {recommendation.firstimage ? 
+                  <img
+                    key={recommendation.contentid}
+                    src={`${recommendation.firstimage}`}
+                    alt={recommendation.title}
+                    onClick={() => handleClick(recommendation)}
+                  />
+                : <img src={noImage} alt='이미지가 없습니다'/>}
                 <p className='mini_title'>#{recommendation.title}</p>
               </Slide>
             </SwiperSlide>
@@ -88,11 +113,13 @@ const List = ({title, typeId, reqURL}) => {
 
         </Content>
       </Swiper>
+      : <p className='no_data'> {title}에 해당하는 데이터가 없습니다.</p>}
       {modalOpen && 
         <Modal {...recomSelected} 
         setModalOpen={ setModalOpen }
         />
         }
+        
     </div>
     
   )

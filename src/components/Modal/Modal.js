@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect} from 'react'
 import { instance } from '../../api/axios';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import Spinner from '../../assets/icons/black.svg';
 import './modal.css'
 
 // interface modalProps {
@@ -12,9 +13,10 @@ import './modal.css'
 //   tel?:string;
 // }
 
+
 const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
   const [overview, setOverview] = useState('')
-
+  const [loading, setLoading] = useState(false)
   const distRound = Math.round(Number(dist));
   const ref = useRef();
   console.log('ref', ref.current);
@@ -22,8 +24,11 @@ const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
   setModalOpen(false);
   })
 
+
+
   const getRes = async () => {
     try {
+      setLoading(true)
       const paramDetail = {
         contentId: contentid,
         defaultYN: 'Y',
@@ -39,7 +44,7 @@ const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
     } catch (err){
       console.log(err);
     }
-    
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -50,6 +55,7 @@ const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
     return str?.length > n ? str.substring(0, n) +'...' : str
   }
 
+  
   return (
     <div className='whole' role="presentation">
       <div className='modal_wrap'>
@@ -72,7 +78,8 @@ const Modal =({addr1, dist, contentid, firstimage, title, setModalOpen}) => {
             <ul>
               <li><span className='bold'>주소</span>: { addr1 }</li>
               <li><span className='bold'>현재 위치에서의 거리</span>: { distRound }m</li>
-              <li><span className='bold'>장소 소개</span><br/> { textLengthCut(overview, 100) }</li>
+              {loading? <img src={Spinner} alt='loading' className='overview_loading'/> : <li><span className='bold'>장소 소개</span><br/> { textLengthCut(overview, 100) }</li>
+              }
             </ul>
           </div>
         </div>

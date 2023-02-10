@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import KakaoMap from '../components/mapComponents/kakaoMap';
-import PlanBox from '../components/mapComponents/PlanBox';
 import './Place.css'
 
 
@@ -9,8 +8,7 @@ import './Place.css'
 function Place() {
   return (
     <Container>
-      <KakaoMap />
-      <PlanBox />
+      <KakaoMap className='place_cont'/>
     </Container>
   )
 }
